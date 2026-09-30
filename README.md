@@ -1,28 +1,30 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+[English](./README.en.md) | 中文
 
-Currently, two official plugins are available:
+本模板提供了一套最小化配置，让 React 在 Vite 中开箱即用，包含 HMR（热模块替换）和部分 Oxlint 规则。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+目前提供两个官方插件：
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) 使用 [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) 使用 [SWC](https://swc.rs/)
 
 ## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+本模板未启用 React Compiler，因为它会影响开发与构建性能。如需启用，请参阅[这份文档](https://react.dev/learn/react-compiler/installation)。
 
-## Testing
+## 测试
 
-Unit tests run with [Vitest](https://vitest.dev) using a standalone `vitest.config.ts` (Vitest does not read `vite.config.ts`). The setup uses jsdom, Testing Library, and explicit imports (no globals).
+单元测试使用 [Vitest](https://vitest.dev) 运行，采用独立配置文件 `vitest.config.ts`（Vitest 不会读取 `vite.config.ts`）。测试环境为 jsdom，配合 Testing Library，测试 API 采用显式导入（不启用 globals）。
 
 ```bash
-pnpm test        # run once
-pnpm test:watch  # watch mode
+pnpm test        # 单次运行
+pnpm test:watch  # 监听模式
 ```
 
-## Expanding the Oxlint configuration
+## 扩展 Oxlint 配置
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+如果你在开发生产环境应用，建议安装 `oxlint-tsgolint` 启用类型感知的 lint 规则，并编辑 `.oxlintrc.json`：
 
 ```json
 {
@@ -38,4 +40,4 @@ If you are developing a production application, we recommend enabling type-aware
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+完整规则列表与分类请查阅 [Oxlint 规则文档](https://oxc.rs/docs/guide/usage/linter/rules)。
