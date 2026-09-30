@@ -11,6 +11,15 @@ Currently, two official plugins are available:
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
+## Testing
+
+Unit tests run with [Vitest](https://vitest.dev) using a standalone `vitest.config.ts` (Vitest does not read `vite.config.ts`). The setup uses jsdom, Testing Library, and explicit imports (no globals).
+
+```bash
+pnpm test        # run once
+pnpm test:watch  # watch mode
+```
+
 ## Expanding the Oxlint configuration
 
 If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
