@@ -129,3 +129,6 @@
     scrollbar-gutter: stable;
     }
 }
+
+/* 导入自定义样式，覆盖 shadcn ui 默认样式 */
+@import "./design.css";
