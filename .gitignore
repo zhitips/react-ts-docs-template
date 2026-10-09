@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# fumadocs 静态搜索索引（构建期生成）
+public/search-index.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

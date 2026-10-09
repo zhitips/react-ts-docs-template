@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "pnpm gen:search && tsc -b && vite build",
+    "gen:search": "node --disable-warning=ExperimentalWarning --experimental-strip-types scripts/generate-search-index.mjs",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
