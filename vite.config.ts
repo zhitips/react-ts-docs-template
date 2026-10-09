@@ -49,11 +49,13 @@ function fumadocsSearchDevServer(): Plugin {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  // 生产部署在 GitHub Pages 子路径，dev 保持根路径
+  base: mode === "production" ? "/react-ts-template/" : "/",
   plugins: [fumadocsMdx(), react(), tailwindcss(), fumadocsSearchDevServer()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+}))

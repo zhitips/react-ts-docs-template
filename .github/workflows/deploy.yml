@@ -1,0 +1,52 @@
+# 部署到 GitHub Pages（仅手动触发）
+# 前提：Settings → Pages → Source 需选 "GitHub Actions"
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # 含搜索索引生成（gen:search）+ 类型检查 + 构建
+      - run: pnpm build
+
+      # SPA 深链回退：Pages 无服务端重写，404.html 兜底渲染客户端路由
+      - run: cp dist/index.html dist/404.html
+
+      - run: touch dist/.nojekyll
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v5
