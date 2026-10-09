@@ -1,0 +1,4 @@
+/* fumadocs 样式（由 index.css 末尾引入，保持单一 Tailwind context）：
+   shadcn 主题将 fd-* 变量映射到现有 shadcn token，preset 提供组件样式 */
+@import "fumadocs-ui/css/shadcn.css";
+@import "fumadocs-ui/css/preset.css";

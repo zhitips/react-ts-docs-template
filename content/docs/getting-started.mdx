@@ -1,0 +1,33 @@
+---
+title: 新增文档
+description: 如何在项目中新增一篇文档。
+---
+
+## 添加文件
+
+在 `content/docs` 目录下创建 MDX 文件，例如 `content/docs/guide.mdx`：
+
+````mdx
+---
+title: 指南
+description: 文档的一句话描述，会显示在标题下方。
+---
+
+## 一级标题
+
+正文内容。
+````
+
+## 配置侧边栏
+
+编辑 `content/docs/meta.json`，`pages` 数组控制显示顺序，`"..."` 表示其余页面按默认顺序追加：
+
+```json
+{
+  "pages": ["index", "getting-started", "..."]
+}
+```
+
+## 访问路径
+
+文件路径即路由路径：`content/docs/guide.mdx` 对应 `/docs/guide`，子目录 `content/docs/advanced/config.mdx` 对应 `/docs/advanced/config`。

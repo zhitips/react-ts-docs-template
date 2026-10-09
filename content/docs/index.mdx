@@ -1,0 +1,44 @@
+---
+title: 简介
+description: React TS 模板内置文档站，基于 fumadocs 驱动。
+---
+
+本项目的文档由 [fumadocs](https://fumadocs.dev) 驱动，内容源文件位于 `content/docs` 目录，使用 MDX 编写，全客户端渲染（SPA 模式）。
+
+## 特性
+
+- 开箱即用的文档布局（侧边栏、目录、面包屑）
+- MDX 语法，支持在文档中使用组件
+- 代码块语法高亮（Shiki）
+- 明暗主题跟随应用切换
+
+## 快速开始
+
+在 `content/docs` 下新增一个 `.mdx` 文件即可：
+
+````mdx
+---
+title: 我的文档
+description: 一句话描述
+---
+
+正文内容，支持 Markdown 与 MDX 语法。
+````
+
+> 侧边栏顺序由同目录下的 `meta.json` 控制。
+
+## 表格示例
+
+| 功能     | 状态 | 说明                 |
+| -------- | ---- | -------------------- |
+| 文档渲染 | ✅   | MDX + 内置组件       |
+| 全文搜索 | ⏳   | SPA 模式暂未启用     |
+| 主题切换 | ✅   | 跟随 shadcn 明暗主题 |
+
+## 代码块示例
+
+```ts
+import { source } from "@/lib/source"
+
+export const pages = source.getPages()
+```
