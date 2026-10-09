@@ -1,12 +1,12 @@
 import { use } from "react"
 import { useParams } from "react-router"
-import { DocsLayout } from "fumadocs-ui/layouts/docs"
+import { DocsLayout } from "fumadocs-ui/layouts/notebook"
 import {
   DocsBody,
   DocsDescription,
   DocsPage as FumadocsDocsPage,
   DocsTitle,
-} from "fumadocs-ui/layouts/docs/page"
+} from "fumadocs-ui/layouts/notebook/page"
 import { getMDXComponents } from "@/components/mdx"
 import { docs, source } from "@/lib/source"
 
@@ -19,7 +19,10 @@ function DocsContent({ path }: { path: string }) {
   const Mdx = page.body
 
   return (
-    <FumadocsDocsPage toc={toc}>
+    <FumadocsDocsPage toc={toc} tableOfContent={{ 
+      single: true,
+      style: 'block'
+    }}>
       <DocsTitle>{page.title}</DocsTitle>
       <DocsDescription>{page.description}</DocsDescription>
       <DocsBody>
