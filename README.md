@@ -22,6 +22,16 @@ pnpm test        # 单次运行
 pnpm test:watch  # 监听模式
 ```
 
+## 部署（GitHub Pages）
+
+通过「Use this template」复制本仓库后：
+
+1. 把 `.env.production` 中的 `VITE_BASE_PATH` 改为 `/<你的仓库名>/`（vite base 按环境从 `.env.development` / `.env.production` 读取）
+2. 仓库 Settings → Pages → Source 选 **GitHub Actions**（一次性）
+3. Actions 页手动触发 **Deploy to GitHub Pages** 工作流
+
+绑定自定义域名（根路径部署）时，把 `VITE_BASE_PATH` 改为 `/` 即可。
+
 ## 扩展 Oxlint 配置
 
 如果你在开发生产环境应用，建议安装 `oxlint-tsgolint` 启用类型感知的 lint 规则，并编辑 `.oxlintrc.json`：

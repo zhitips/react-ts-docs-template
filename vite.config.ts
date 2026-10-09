@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
 import { createFromSource } from "fumadocs-core/search/server"
 import { fumadocsMdx } from "fumadocs-mdx/vite"
-import { defineConfig, type Plugin } from "vite"
+import { defineConfig, loadEnv, type Plugin } from "vite"
 
 // 递归取目录最新 mtime，作为 dev 索引缓存失效依据
 function latestMtime(dir: string): number {
@@ -49,13 +49,17 @@ function fumadocsSearchDevServer(): Plugin {
 }
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
-  // 生产部署在 GitHub Pages 子路径，dev 保持根路径
-  base: mode === "production" ? "/react-ts-template/" : "/",
-  plugins: [fumadocsMdx(), react(), tailwindcss(), fumadocsSearchDevServer()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+export default defineConfig(({ mode }) => {
+  const { VITE_BASE_PATH } = loadEnv(mode, process.cwd())
+
+  return {
+    // base 按 mode 从 .env.development / .env.production 读取（见文件内注释）
+    base: VITE_BASE_PATH || "/",
+    plugins: [fumadocsMdx(), react(), tailwindcss(), fumadocsSearchDevServer()],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
     },
-  },
-}))
+  }
+})

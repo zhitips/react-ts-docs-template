@@ -29,6 +29,6 @@ export const router = createBrowserRouter([
     ],
   },
 ], {
-  // 跟随 vite base：dev "/"，GitHub Pages 构建 "/react-ts-template/"
+  // 跟随 vite base：dev "/"，生产由 .env.production 的 VITE_BASE_PATH 配置
   basename: import.meta.env.BASE_URL,
 })

@@ -78,7 +78,7 @@ SPA 无 `/api/search` 服务端，搜索走官方静态模式（fumadocs v16 默
 
 ## 部署（GitHub Pages）
 
-部署地址：<https://zhitips.github.io/react-ts-template/>（子路径）。工作流 [.github/workflows/deploy.yml](../.github/workflows/deploy.yml)，**仅手动触发**（`workflow_dispatch`，不随 push 自动部署）。
+部署地址：<https://zhitips.github.io/react-ts-docs-template/>（子路径）。工作流 [.github/workflows/deploy.yml](../.github/workflows/deploy.yml)，**仅手动触发**（`workflow_dispatch`，不随 push 自动部署）。
 
 - **触发路径**：仓库 Actions 页 → Deploy to GitHub Pages → Run workflow。
 - **前提 1**：workflow 文件需存在于**默认分支 main**（GitHub 的 Run workflow 按钮只列出默认分支上的工作流；日常开发在 dev 分支，合并到 main 后 UI 才能触发）。
@@ -89,13 +89,13 @@ SPA 无 `/api/search` 服务端，搜索走官方静态模式（fumadocs v16 默
 
 | 位置 | 适配 |
 | --- | --- |
-| `vite.config.ts` | `base: mode === "production" ? "/react-ts-template/" : "/"`（dev 保持根路径） |
+| `vite.config.ts` | `base` 用 `loadEnv` 从 `.env.development` / `.env.production` 的 `VITE_BASE_PATH` 读取；复制模板/改仓库名后只需改 `.env.production` 一行 |
 | `src/router.tsx` | `createBrowserRouter` 的 `basename: import.meta.env.BASE_URL` |
 | `src/components/StaticSearchDialog.tsx` | 索引 URL `` `${import.meta.env.BASE_URL}search-index.json` `` |
 | `index.html` | favicon 用 `%BASE_URL%` 占位符 |
 | workflow | `404.html` 复制（SPA 深链回退）+ `.nojekyll` |
 
-注意：SPA 深链直开返回 404 状态码但页面正常渲染（Pages 静态托管无重写）；若未来绑定自定义域名，`base` 应改回 `/`。
+注意：SPA 深链直开返回 404 状态码但页面正常渲染（Pages 静态托管无重写）；若绑定自定义域名（根路径部署），把 `.env.production` 的 `VITE_BASE_PATH` 改为 `/` 即可。
 
 ## 已知限制
 
