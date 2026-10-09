@@ -1,10 +1,12 @@
 import { Outlet } from "react-router"
 import { RootProvider } from "fumadocs-ui/provider/react-router"
+import { StaticSearchDialog } from "@/components/StaticSearchDialog"
 
 export function AppProviders() {
   return (
-    // SPA 模式无 /api/search 服务端，暂不启用文档搜索
-    <RootProvider search={{ enabled: false }}>
+    // 静态搜索：索引由 scripts/generate-search-index.mjs（构建）与
+    // vite 中间件（dev）生成于 /search-index.json，浏览器端本地查询
+    <RootProvider search={{ SearchDialog: StaticSearchDialog }}>
       <Outlet />
     </RootProvider>
   )

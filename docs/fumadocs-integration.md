@@ -14,7 +14,8 @@
    - 无 loader，slug 从 `useParams()['*']` 获取
    - 页面树用同步的 `source.getPageTree()` 直接传入 `DocsLayout`
    - 文档正文通过 React 19 的 `use(page.load())` 懒加载
-   - 代价：无 SSR/预渲染，文档页 SEO 弱；搜索无服务端可用（见「已知限制」）
+   - 搜索采用静态索引方案（无服务端，见「静态搜索」）
+   - 代价：无 SSR/预渲染，文档页 SEO 弱
 
 2. **主题用 `fumadocs-ui/css/shadcn.css`，且 import 写在 `src/design.css`（不写进 index.css）**。
    shadcn.css 把 fumadocs 的 `--color-fd-*` 变量映射到项目现有的 shadcn token（`--background`、`--primary` 等），文档页与应用页视觉统一，暗色模式自动跟随 `.dark` 体系。design.css 由 index.css 末尾引入，保持单一 Tailwind v4 context。
@@ -41,10 +42,12 @@
 | [src/lib/source.ts](../src/lib/source.ts) | 定义内容源：`defineDocs`（`async: true` 按文档分包）+ `loader`（baseUrl `/docs`） |
 | [src/components/mdx.tsx](../src/components/mdx.tsx) | `getMDXComponents`：fumadocs 默认 MDX 组件 + 自定义组件合并处 |
 | [src/pages/DocsPage.tsx](../src/pages/DocsPage.tsx) | `/docs/*` 路由组件（SPA 适配核心，见下） |
-| [src/layouts/AppProviders.tsx](../src/layouts/AppProviders.tsx) | `RootProvider`（来自 `fumadocs-ui/provider/react-router`），包住全部路由；搜索在此禁用 |
+| [src/layouts/AppProviders.tsx](../src/layouts/AppProviders.tsx) | `RootProvider`（来自 `fumadocs-ui/provider/react-router`），包住全部路由；挂载静态搜索对话框 |
 | [src/router.tsx](../src/router.tsx) | 无路径根节点（AppProviders）+ `/docs/*` 子树（与 RootLayout 平级，文档页不套应用顶栏） |
 | [src/design.css](../src/design.css) | fumadocs 样式入口：`shadcn.css` + `preset.css` |
-| [vite.config.ts](../vite.config.ts) | `fumadocsMdx()` 插件，置于插件数组最前 |
+| [src/components/StaticSearchDialog.tsx](../src/components/StaticSearchDialog.tsx) | 静态搜索对话框：`useStaticSearch` 下载索引后本地查询（ZBSearch） |
+| [scripts/generate-search-index.mjs](../scripts/generate-search-index.mjs) | 构建期索引导出脚本（`pnpm gen:search`），产物 `public/search-index.json` |
+| [vite.config.ts](../vite.config.ts) | `fumadocsMdx()` 插件（最前）+ dev 即时索引中间件 `fumadocsSearchDevServer()` |
 
 ## 工作机制（非显而易见的部分）
 
@@ -62,11 +65,19 @@
 
 MDX 内可直接使用 fumadocs 内置组件（`<Callout>`、`<Card>` 等，完整列表见 `defaultMdxComponents`）；自定义组件在 `src/components/mdx.tsx` 中注册。
 
+## 静态搜索（ZBSearch）
+
+SPA 无 `/api/search` 服务端，搜索走官方静态模式（fumadocs v16 默认引擎为 [ZBSearch](https://www.zbsearch.dev)，见官方 [搜索文档](https://fumadocs.dev/docs/search/orama)）：
+
+- **数据链路**：`createFromSource(source).staticGET()` 导出序列化索引 → `useStaticSearch({ from: "/search-index.json" })` 浏览器下载后本地查询，首次打开搜索时才加载，不影响首屏。
+- **构建**：`pnpm build` 前置执行 `pnpm gen:search`（`scripts/generate-search-index.mjs`），生成 `public/search-index.json`（已 gitignore），vite 自动拷入 dist。
+- **dev**：`vite.config.ts` 的 `fumadocsSearchDevServer()` 中间件按请求即时生成 `/search-index.json`（以 content 目录与 source.ts 的 mtime 做缓存失效），改文档无需重启。
+- **Node 脚本原理**：`register()`（`fumadocs-mdx/node`）注册模块加载钩子后才能导入含宏的 `src/lib/source.ts`；读取 `.ts` 需要 Node 类型剥离，故脚本命令带 `--experimental-strip-types`（Node 22.6+，22.18+/23+ 可省略）。
+- **自定义对话框**：默认对话框请求 `/api/search`（SPA 下不可用），故用 `search={{ SearchDialog: StaticSearchDialog }}` 替换。
+- 索引 JSON 含全部文档正文摘要（当前约 21 kB），文档量大时体积可观，官方建议大文档站改用云方案（Algolia/Orama Cloud）。
+
 ## 已知限制
 
-- **搜索已禁用**：`AppProviders.tsx` 中 `search={{ enabled: false }}`。SPA 无 `/api/search` 服务端。后续启用方案：
-  - `fumadocs-core/search/client/flexsearch-static` + 构建期生成静态索引 JSON（无服务端方案，见官方 [FlexSearch 静态导出文档](https://fumadocs.dev/docs/search/flexsearch)）；
-  - 或迁移 React Router framework 模式，走官方 `api/search` 路由（同时获得 SSR/预渲染）。
 - **构建警告**：`Module "node:fs/promises" has been externalized...` 来自 fumadocs `renderToMarkdown` 的浏览器存根，仅被 `getText()`（AI/LLM 接口）动态调用，不在文档渲染路径，可忽略。
 - **测试**：`vitest.config.ts` 未加 `fumadocsMdx()` 插件（现有测试不涉及 MDX 内容）。若未来测试需要 import 文档内容或 `@/lib/source`，需将插件同步加入 vitest 配置。
 - **类型检查**：`content/` 不在 tsconfig include 内，MDX 文件不参与 `tsc` 类型检查，属预期行为。
@@ -77,9 +88,10 @@ MDX 内可直接使用 fumadocs 内置组件（`<Callout>`、`<Card>` 等，完�
 
 ```bash
 pnpm dev     # /docs 渲染正常：标题/描述/TOC/代码高亮/表格；/docs/xxx 随意路径落到 404
-pnpm build   # tsc 类型检查 + 构建；产物含各文档独立 chunk（async 分包生效）
+pnpm build   # 索引生成 + tsc 类型检查 + 构建；产物含各文档独立 chunk 与 search-index.json
 pnpm test    # 现有测试不受影响
 pnpm lint    # 无新增告警
 ```
 
-明暗主题切换（文档页右下角 fumadocs theme switch）下，文档页配色应跟随应用 token 变化。
+- ⌘K 打开搜索框，输入关键词应出结果并可跳转（索引来自 `/search-index.json`）
+- 明暗主题切换（文档页右下角 fumadocs theme switch）下，文档页配色应跟随应用 token 变化
