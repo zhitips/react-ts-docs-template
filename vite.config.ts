@@ -21,8 +21,8 @@ function latestMtime(dir: string): number {
 
 // dev 下即时生成 /search-index.json，文档改动无需重启
 function fumadocsSearchDevServer(): Plugin {
-  const contentDir = path.resolve(__dirname, "content/docs")
-  const sourceFile = path.resolve(__dirname, "src/lib/source.ts")
+  const contentDir = path.resolve(import.meta.dirname, "content/docs")
+  const sourceFile = path.resolve(import.meta.dirname, "src/lib/source.ts")
   let cached: { body: string; stamp: number } | undefined
 
   return {
@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => {
     plugins: [fumadocsMdx(), react(), tailwindcss(), fumadocsSearchDevServer()],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        "@": path.resolve(import.meta.dirname, "./src"),
       },
     },
   }
