@@ -32,7 +32,7 @@ After copying this repo via "Use this template":
 
 For a custom domain (root-path deployment), set `VITE_BASE_PATH` to `/`.
 
-Site branding (name, description, badge text, GitHub URL) is configured via `VITE_SITE_NAME` / `VITE_SITE_DESCRIPTION` / `VITE_SITE_BADGE` / `VITE_GITHUB_URL` in `.env` — change them once and the whole site follows (keep `.env.development` and `.env.production` in sync).
+Site branding (name, description, GitHub URL) is configured via `VITE_SITE_NAME` / `VITE_SITE_DESCRIPTION` / `VITE_GITHUB_URL` in `.env` — change them once and the whole site follows (keep `.env.development` and `.env.production` in sync).
 
 ## Expanding the Oxlint configuration
 

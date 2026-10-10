@@ -1,7 +1,6 @@
 import { Link } from "react-router"
 import { ArrowRight, Blocks, ExternalLink, Globe, Search, SunMoon, TextSearch } from "lucide-react"
 import { useSearchContext } from "fumadocs-ui/contexts/search"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { getDocCards } from "@/lib/doc-cards"
 import { SITE } from "@/lib/site"
@@ -25,7 +24,6 @@ export function HomePage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-16">
       <section className="flex flex-col items-center gap-5 text-center">
-        <Badge variant="outline">{SITE.badge}</Badge>
         <h1 className="text-4xl font-semibold tracking-tight">{SITE.name}</h1>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {SITE.description}
