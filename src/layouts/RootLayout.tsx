@@ -2,7 +2,8 @@ import { Link, NavLink, Outlet } from "react-router"
 import { cn } from "cn"
 
 const NAV_ITEMS = [
-  { to: "/", label: "表格示例" },
+  { to: "/", label: "首页" },
+  { to: "/users", label: "表格示例" },
   { to: "/docs", label: "文档" },
   { to: "/about", label: "关于" },
 ]
