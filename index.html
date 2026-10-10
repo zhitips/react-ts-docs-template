@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="React + TypeScript 项目模板，内置 fumadocs 文档站：MDX 组件、全文搜索、明暗主题，可部署到 GitHub Pages。"
-    />
-    <title>React TS 模板</title>
+    <!-- 站点品牌信息：构建期由 .env 的 VITE_SITE_* 替换 -->
+    <meta name="description" content="%VITE_SITE_DESCRIPTION%" />
+    <title>%VITE_SITE_NAME%</title>
   </head>
   <body>
     <div id="root"></div>

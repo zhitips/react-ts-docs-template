@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from "react-router"
 import { cn } from "cn"
+import { SITE } from "@/lib/site"
 
 const NAV_ITEMS = [
   { to: "/", label: "首页" },
@@ -14,7 +15,7 @@ export function RootLayout() {
       <header className="sticky top-0 z-10 border-b border-border bg-background">
         <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4">
           <Link to="/" className="text-base font-semibold tracking-tight">
-            React TS 模板
+            {SITE.name}
           </Link>
           <nav className="flex items-center gap-1">
             {NAV_ITEMS.map((item) => (

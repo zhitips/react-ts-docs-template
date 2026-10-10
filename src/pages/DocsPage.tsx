@@ -8,6 +8,7 @@ import {
   DocsTitle,
 } from "fumadocs-ui/layouts/notebook/page"
 import { getMDXComponents } from "@/components/mdx"
+import { SITE } from "@/lib/site"
 import { docs, source } from "@/lib/source"
 
 function DocsContent({ path }: { path: string }) {
@@ -39,7 +40,7 @@ export function DocsPage() {
   if (!page) throw new Response(null, { status: 404 })
 
   return (
-    <DocsLayout tree={source.getPageTree()} nav={{ title: "React TS 模板" }}>
+    <DocsLayout tree={source.getPageTree()} nav={{ title: SITE.name }}>
       <DocsContent path={page.path} />
     </DocsLayout>
   )

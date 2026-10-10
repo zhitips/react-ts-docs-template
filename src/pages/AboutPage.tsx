@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge"
+import { SITE } from "@/lib/site"
 
 const TECH_STACK = [
   "React 19",
@@ -14,9 +15,7 @@ export function AboutPage() {
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8">
       <header className="flex flex-col gap-1">
         <h1 className="text-2xl font-semibold tracking-tight">关于</h1>
-        <p className="text-sm text-muted-foreground">
-          zhitips 组织内部的 React + TypeScript 前端模板
-        </p>
+        <p className="text-sm text-muted-foreground">{SITE.badge}</p>
       </header>
 
       <section className="flex flex-col gap-4 rounded-xl border border-border bg-card px-6 py-5">

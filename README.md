@@ -32,6 +32,8 @@ pnpm test:watch  # 监听模式
 
 绑定自定义域名（根路径部署）时，把 `VITE_BASE_PATH` 改为 `/` 即可。
 
+站点品牌信息（名称、描述、徽章文案、GitHub 地址）统一在 `.env` 的 `VITE_SITE_NAME` / `VITE_SITE_DESCRIPTION` / `VITE_SITE_BADGE` / `VITE_GITHUB_URL` 配置，改一处即全站生效（`.env.development` 与 `.env.production` 需保持一致）。
+
 ## 扩展 Oxlint 配置
 
 如果你在开发生产环境应用，建议安装 `oxlint-tsgolint` 启用类型感知的 lint 规则，并编辑 `.oxlintrc.json`：

@@ -4,9 +4,8 @@ import { useSearchContext } from "fumadocs-ui/contexts/search"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { getDocCards } from "@/lib/doc-cards"
+import { SITE } from "@/lib/site"
 import { source } from "@/lib/source"
-
-const GITHUB_URL = "https://github.com/zhitips/react-ts-docs-template"
 
 const FEATURES = [
   { icon: Blocks, title: "MDX 组件", description: "文档中使用 MDX 语法与 React 组件" },
@@ -26,11 +25,10 @@ export function HomePage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-4 py-16">
       <section className="flex flex-col items-center gap-5 text-center">
-        <Badge variant="outline">zhitips 内部前端模板</Badge>
-        <h1 className="text-4xl font-semibold tracking-tight">React TS 模板</h1>
+        <Badge variant="outline">{SITE.badge}</Badge>
+        <h1 className="text-4xl font-semibold tracking-tight">{SITE.name}</h1>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          自带文档站的 React + TypeScript 项目模板：MDX 编写文档、全文搜索、明暗主题，
-          开箱即可部署到 GitHub Pages。
+          {SITE.description}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" nativeButton={false} render={<Link to="/docs" />}>
@@ -41,7 +39,7 @@ export function HomePage() {
             variant="outline"
             size="lg"
             nativeButton={false}
-            render={<a href={GITHUB_URL} target="_blank" rel="noreferrer" />}
+            render={<a href={SITE.githubUrl} target="_blank" rel="noreferrer" />}
           >
             GitHub
             <ExternalLink data-icon="inline-end" />
