@@ -40,7 +40,11 @@ export function DocsPage() {
   if (!page) throw new Response(null, { status: 404 })
 
   return (
-    <DocsLayout tree={source.getPageTree()} nav={{ title: SITE.name }}>
+    <DocsLayout
+      tree={source.getPageTree()}
+      nav={{ title: SITE.name }}
+      githubUrl={SITE.githubUrl}
+    >
       <DocsContent path={page.path} />
     </DocsLayout>
   )
