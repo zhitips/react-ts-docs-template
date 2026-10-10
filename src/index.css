@@ -126,8 +126,18 @@
     }
   html {
     @apply font-sans;
+    /* 滚动条出现/消失（页面切换）时保持布局宽度稳定；
+       与 Radix 锁滚动的 margin 补偿冲突，由下方规则反杀 */
     scrollbar-gutter: stable;
     }
+}
+
+/* Radix Dialog（fumadocs 搜索弹窗）锁滚动时会注入
+   body[data-scroll-locked] { margin-right: 15px !important } 补偿滚动条消失；
+   但 gutter: stable 已预留滚动条槽，双重补偿会让 body 净缩 15px（页面左漂），
+   用更高优先级归零 margin，由 gutter 独自承担宽度稳定 */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
 }
 
 /* 导入自定义样式，覆盖 shadcn ui 默认样式 */
