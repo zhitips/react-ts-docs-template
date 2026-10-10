@@ -1,6 +1,5 @@
 import { Link } from "react-router"
-import { ArrowRight, Blocks, ExternalLink, Globe, Search, SunMoon, TextSearch } from "lucide-react"
-import { useSearchContext } from "fumadocs-ui/contexts/search"
+import { ArrowRight, Blocks, ExternalLink, Globe, SunMoon, TextSearch } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getDocCards } from "@/lib/doc-cards"
 import { SITE } from "@/lib/site"
@@ -17,7 +16,6 @@ const CARD_CLASS =
   "flex flex-col gap-2 rounded-xl border border-border bg-card px-6 py-5 transition-colors hover:border-ring/50 hover:bg-muted/50"
 
 export function HomePage() {
-  const { setOpenSearch } = useSearchContext()
   // 文档卡片从页面树自动生成，新增文档无需改首页代码
   const cards = getDocCards(source.getPageTree())
 
@@ -43,17 +41,6 @@ export function HomePage() {
             <ExternalLink data-icon="inline-end" />
           </Button>
         </div>
-        <button
-          type="button"
-          onClick={() => setOpenSearch(true)}
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <Search className="size-3.5" />
-          搜索文档
-          <kbd className="rounded-md border border-border bg-muted px-1.5 py-0.5 font-sans text-xs">
-            ⌘K
-          </kbd>
-        </button>
       </section>
 
       {cards.length > 0 && (
