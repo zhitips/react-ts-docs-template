@@ -5,8 +5,6 @@ import { AboutPage } from "@/pages/AboutPage"
 import { DocsPage } from "@/pages/DocsPage"
 import { HomePage } from "@/pages/HomePage"
 import { NotFoundPage } from "@/pages/NotFoundPage"
-import { UserDetailPage } from "@/pages/UserDetailPage"
-import { UsersPage } from "@/pages/UsersPage"
 
 export const router = createBrowserRouter([
   {
@@ -17,8 +15,6 @@ export const router = createBrowserRouter([
         element: <RootLayout />,
         children: [
           { index: true, element: <HomePage /> },
-          { path: "users", element: <UsersPage /> },
-          { path: "users/:userId", element: <UserDetailPage /> },
           { path: "about", element: <AboutPage /> },
           { path: "*", element: <NotFoundPage /> },
         ],
